@@ -24,6 +24,7 @@ public class ChatGPTAPI: @unchecked Sendable {
     
     private let urlString = "https://api.openai.com/v1/chat/completions"
     private let apiKey: String
+    private let organization: String
     private let gptEncoder = GPTEncoder()
     public private(set) var historyList = [Message]()
 
@@ -42,7 +43,8 @@ public class ChatGPTAPI: @unchecked Sendable {
     private var headers: [String: String] {
         [
             "Content-Type": "application/json",
-            "Authorization": "Bearer \(apiKey)"
+            "Authorization": "Bearer \(apiKey)",
+            "Open-AI Organization": organization
         ]
     }
     
@@ -50,8 +52,9 @@ public class ChatGPTAPI: @unchecked Sendable {
         .init(role: "system", content: content)
     }
     
-    public init(apiKey: String) {
+    public init(apiKey: String, organization: String) {
         self.apiKey = apiKey
+        self.organization = organization
     }
     
     private func generateMessages(from text: String, systemText: String) -> [Message] {
